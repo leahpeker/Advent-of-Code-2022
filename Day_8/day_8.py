@@ -20,15 +20,14 @@ class ElfTree:
 
 def calculate_visible_trees(lines, dictionary):
     sum_of_visible_trees = 0
-    dictionary = dictionary
     length = len(lines[0])
     for i, line in enumerate(lines):
-        dictionary = step_tree_matrix(dictionary, length, i, lines)
+        step_tree_matrix(dictionary, length, i, lines)
         dictionary[1] = []
         for j, height in enumerate(line):
             tree = ElfTree(int(height), [j, i])
-            dictionary = create_tree_matrix(tree, dictionary, 1)
-        dictionary = count_visible_trees(dictionary, length)
+            create_tree_matrix(tree, dictionary, 1)
+        count_visible_trees(dictionary, length)
         for i, tree in enumerate(dictionary[1]):
             if tree.visibility:
                 sum_of_visible_trees += 1
@@ -38,7 +37,6 @@ def calculate_visible_trees(lines, dictionary):
 
 def create_tree_matrix(tree, dictionary, index):
     dictionary[index].append(tree)
-    return dictionary
 
 
 def step_tree_matrix(dictionary, length, index, lines):
@@ -54,7 +52,6 @@ def step_tree_matrix(dictionary, length, index, lines):
     for j, height in enumerate(bottom_max_height_list):
         tree = ElfTree(int(height), [j, index])
         create_tree_matrix(tree, dictionary, 2)
-    return dictionary
 
 
 def count_visible_trees(dictionary, length):
@@ -77,15 +74,12 @@ def count_visible_trees(dictionary, length):
             dictionary[1][i].visibility = True
             continue
 
-    return dictionary
-
-
 def build_giant_matrix(lines):
     dictionary = defaultdict(list)
     for i, line in enumerate(lines):
         for j, height in enumerate(line):
             tree = ElfTree(int(height), [j, i])
-            dictionary = create_tree_matrix(tree, dictionary, i)
+            create_tree_matrix(tree, dictionary, i)
     return dictionary
 
 
@@ -95,7 +89,7 @@ def do_stuff(lines):
     dictionary = build_giant_matrix(lines)
     max_scenic_score = 0
     for index in range(length):
-        dictionary, scenic_score = look_around(dictionary, index, length, line_length)
+        scenic_score = look_around(dictionary, index, length, line_length)
         if scenic_score > max_scenic_score:
             max_scenic_score = scenic_score
     return max_scenic_score
@@ -104,7 +98,7 @@ def do_stuff(lines):
 def look_around(dictionary, index, length, line_length):
     max_scenic_score = 0
     if index == 0 or index == length - 1:
-        return dictionary, max_scenic_score
+        return max_scenic_score
     for i, tree in enumerate(dictionary[index]):
         # first look up
         starting_index = index
@@ -150,7 +144,7 @@ def look_around(dictionary, index, length, line_length):
         if scenic_score > max_scenic_score:
             max_scenic_score = scenic_score
 
-    return dictionary, max_scenic_score
+    return max_scenic_score
 
 
 filename = 'test.txt'
@@ -164,4 +158,4 @@ for i in range(len(lines[0])):
     tree_list.append(ElfTree(-1, [int(i), 0]))
 tree_matrix = defaultdict(lambda: tree_list)
 calculate_visible_trees(lines, tree_matrix)
-do_stuff(lines)
+print(do_stuff(lines))

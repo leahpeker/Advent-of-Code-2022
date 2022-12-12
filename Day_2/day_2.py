@@ -1,43 +1,24 @@
-with open('rock_paper_scissors.txt') as file:
-    rock_paper_scissors = file.readlines()
-
-
 def part_1(rock_paper_scissors):
 
-    rps_score_dict = {
-        'X': 1,
-        'Y': 2,
-        'Z': 3,
-    }
-
-    winn_possibilities_dict = {
-        'X': 'C',
-        'Y': 'A',
-        'Z': 'B'
-    }
-
-    match_dict = {
-        'X': 'A',
-        'Y': 'B',
-        'Z': 'C'
+    # contains the points for getting each score, plus the conditions for winning or tying
+    score_win_match_dict = {
+        'X': [1, 'C', 'A'],
+        'Y': [2, 'A', 'B'],
+        'Z': [3, 'B', 'C'],
     }
 
     score = 0
     for line in rock_paper_scissors:
-        elf, me = line.split()
-        score += rps_score_dict[me]
-        # print(elf, 'next', me)
-        if elf == match_dict[me]:
-            # print('==', elf, me)
+        elf, me = line
+        score += score_win_match_dict[me][0]
+        if elf == score_win_match_dict[me][2]:
             score += 3
-        elif elf == winn_possibilities_dict[me]:
-            # print('win', elf, me)
+        elif elf == score_win_match_dict[me][1]:
             score += 6
     return score
 
 
 def part_2(rock_paper_scissors):
-
     points_wld = {
         'X': 0,
         'Y': 3,
@@ -62,9 +43,17 @@ def part_2(rock_paper_scissors):
         'C': 2
     }
 
+    # lays out the amount of points an elf receives first for a straight win, loss, or draw (6, 0, 3)
+    # #then tells us how many points
+    # wldpoints_wintype_drawtype_losetype_dict = {
+    #     'A': [0, 2, 'A'],
+    #     'B': [3, 3, 'B'],
+    #     'C': [6, 1, 'C'],
+    # }
+
     score = 0
     for line in rock_paper_scissors:
-        elf, strategy = line.split()
+        elf, strategy = line
         score += points_wld[strategy]
         if strategy == 'Y':
             score += points_for_draw[elf]
@@ -75,5 +64,10 @@ def part_2(rock_paper_scissors):
 
     return score
 
-print(part_1(rock_paper_scissors))
-print(part_2(rock_paper_scissors))
+
+with open('rock_paper_scissors.txt') as file:
+    # rock_paper_scissors = file.readlines()
+    elf_strategy = [line.split() for line in file.readlines()]
+print(elf_strategy)
+print(part_1(elf_strategy))
+print(part_2(elf_strategy))

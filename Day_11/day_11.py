@@ -1,6 +1,5 @@
 import re
 from collections import defaultdict
-import operator
 
 
 class Monkey:
@@ -101,7 +100,3 @@ for monkey_id, monkey in monkey_dict.items():
 inspections_list = sorted(inspections_list)
 monkey_business = inspections_list[-1] * inspections_list[-2]
 print(monkey_business)
-
-
-# print(moving_items_dict)
-#56160

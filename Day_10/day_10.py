@@ -5,7 +5,6 @@ np.set_printoptions(linewidth=400)
 
 class Grid:
     def __init__(self):
-        # self.grid = np.zeros((6, 40), dtype=int)
         self.grid = np.empty((6, 40), dtype=str)
         self.detect_sprite()
 
@@ -23,11 +22,12 @@ class Grid:
                         break
             if y in range(xreg - 1, xreg + 2):
                 # self.grid[x, y] = 1
-                self.grid[x, y] = '8'
+                self.grid[x, y] = '#'
             else:
-                self.grid[x, y] = '.'
+                self.grid[x, y] = ' '
         print(self.grid)
         return self.grid
+
 
 def calc_signal_strength(lines):
     cycle = 1
@@ -37,8 +37,7 @@ def calc_signal_strength(lines):
     for line in lines:
         if line.startswith('addx'):
             cycle += 2
-            value = int(re.findall('-?\d+', line)[0])
-            signal_strength += value
+            signal_strength += int(re.findall('-?\d+', line)[0])
             signal_strength_dict[cycle] = signal_strength
         else: #if line == 'noop':
             cycle += 1

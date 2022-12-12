@@ -14,10 +14,9 @@ for line in calories_df:
 calorie_counter = Counter(calorie_dict)
 top_3 = calorie_counter.most_common(3)
 
-sum = 0
+calorie_sum = 0
 for key, value in top_3:
-   sum += value
-
-print(sum)
+   calorie_sum += value
 
 print(calorie_counter)
+print(calorie_sum)

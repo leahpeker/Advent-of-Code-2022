@@ -60,11 +60,11 @@ class Grid:
             vertical = step[1]
             direction = self.get_direction(horizontal, vertical)
             for i in range(max(abs(horizontal), abs(vertical))):
-                if horizontal == 0:
+                if vertical != 0:
                     head.y += direction
-                if vertical == 0:
+                else: #elif horizontal != 0:
                     head.x += direction
-                tail.y, tail.x = self.follow_the_leader(head, tail, direction)
+                self.follow_the_leader(head, tail)
                 self.grid[tail.y, tail.x] = 1
 
         return self.count_spots()
@@ -76,7 +76,6 @@ class Grid:
             node_dict[i] = Node(([self.starting_x, self.starting_y]))
 
         for step in self.move_matrix:
-            print(step)
             horizontal = step[0]
             vertical = step[1]
             direction = self.get_direction(horizontal, vertical)
@@ -87,8 +86,7 @@ class Grid:
                     node_dict[0].x += direction
                 for key, node in node_dict.items():
                     if key != 0:
-
-                        node.y, node.x = self.follow_the_leader(node_dict[key - 1], node, direction)
+                        self.follow_the_leader(node_dict[key - 1], node)
                 self.grid[node_dict[knots - 1].y, node_dict[knots - 1].x] = 1
 
         return self.count_spots()
@@ -98,7 +96,7 @@ class Grid:
         count_dict = dict(zip(unique, counts))
         return count_dict[1]
 
-    def follow_the_leader(self, previous, current, direction):
+    def follow_the_leader(self, previous, current):
         if abs(previous.x - current.x) > 1 and previous.y != current.y or abs(previous.y - current.y) > 1 and previous.x != current.x:
             if previous.x < current.x:
                 current.x -= 1
