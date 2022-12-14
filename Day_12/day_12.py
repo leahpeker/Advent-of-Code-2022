@@ -21,6 +21,7 @@ def hike_this_b(grid, starting_position, ending_position):
                 break
             else:
                 current_steps.extend(look_around(position, grid, pathway_grid, move_up))
+    return steps
 
 
 # this time instead of looking for the starting position by location, we want to look for any location where the
@@ -41,6 +42,7 @@ def hike_back_down(grid, starting_position, ending_height):
                 break
             else:
                 current_steps.extend(look_around(position, grid, pathway_grid, move_down))
+    return steps
 
 
 # the pathway grid keeps track of where we've already been before, so we don't end up retracing our steps
@@ -110,5 +112,5 @@ height_grid[starting_location] = 0 # need to set to 0 bc ascii -97 if S is -14
 mountaintop = find_ending_grid_position(height_grid)
 mountaintop_value = 25 # need to set to 25 bc ascii -97 if S is -28
 height_grid[mountaintop] = mountaintop_value
-hike_this_b(height_grid, starting_location, mountaintop)
-hike_back_down(height_grid, mountaintop, 0)
+# part_1 = hike_this_b(height_grid, starting_location, mountaintop)
+part_2 = hike_back_down(height_grid, mountaintop, 0)
